@@ -6,13 +6,17 @@ Ontwikkelen → Bewijs verzamelen → Portfolio opbouwen**, gebouwd volgens het 
 ## Status
 
 - ✅ Applicatieskelet: routing, layout (sidebar/topbar/mobiele drawer), design system, centraal datamodel
-- ✅ Dashboard met demo-data (duidelijk gelabeld als `DEMO / MOCKDATA`)
-- ⏳ **Geblokkeerd:** de officiele studiehandleiding van de minor is nog niet aangeleverd. Zonder die bron mogen
-  deadlines, Lowstakes/Midstakes, E-learningmodules en toetsmateriaal niet worden ingevuld (zie sectie 4 van het
-  master prompt: verzin geen officiele onderwijsinhoud).
+- ✅ Officiele studentenhandleiding geintegreerd:
+  [fabianb88.github.io/minor-ce-studentenhandleiding](https://fabianb88.github.io/minor-ce-studentenhandleiding/index.html)
+  (opgehaald 2026-09-14). Zie [`src/data/officialData.ts`](src/data/officialData.ts) voor de geextraheerde
+  Lowstakes/Midstake, deadlines en de 18 materialen, elk met bronverwijzing (sectie 6 van het master prompt).
+- ✅ Planning, Deadlines, Opdrachten (Lowstakes/Midstakes) en Materialen werken met deze officiele data
+- ✅ Dashboard combineert officiele data met demo-data (duidelijk gelabeld per widget)
 - ⏳ **Geblokkeerd:** Supabase (database/storage) is nog niet gekoppeld — nodig voor Leerdoelen, Vaardigheden,
-  Documenten, Reflectie, Portfolio, Samenwerken.
+  Documenten, Reflectie, Portfolio, Samenwerken (deze modules gebruiken nu localStorage of demo-data).
 - ⏳ **Geblokkeerd:** Microsoft Entra ID / Graph API is nog niet geconfigureerd — nodig voor Outlook-integratie.
+- ℹ️ Deze minor werkt projectmatig via de Double Diamond (Discover/Define/Develop/Deliver) met 18 hulpmiddelen in
+  plaats van klassieke E-learningmodules — de E-learning-pagina legt dit uit en verwijst door naar Materialen.
 
 Elke module heeft al wel een werkende route met lege/foutstatus die expliciet de blocker benoemt, in plaats van
 verzonnen inhoud te tonen.
@@ -52,7 +56,8 @@ De site draait op een relatieve base-URL (`/portfolioportaal-ce/`, zie `vite.con
 
 ## Volgende stappen
 
-1. Studiehandleiding aanleveren → officiele content extraheren (weken, deadlines, Lowstakes/Midstakes,
-   E-learningmodules, materialen).
-2. Supabase-project aanmaken en credentials toevoegen (nooit service-role keys in frontendcode).
-3. Microsoft Entra ID app-registratie voor authenticatie + Graph-scopes.
+1. Supabase-project aanmaken en credentials toevoegen (nooit service-role keys in frontendcode) → Leerdoelen,
+   Vaardigheden, Documenten, Reflectie, Portfolio en Samenwerken van placeholder naar echte functionaliteit.
+2. Microsoft Entra ID app-registratie voor authenticatie + Graph-scopes → Outlook-integratie.
+3. Periode 2 (weken 46-52) van de planning bevat geen expliciete maandagdata in de bron-HTML; nagaan of dit
+   alsnog ergens beschikbaar is voor exacte data van Circulaire Oogst en de assessmentweek.

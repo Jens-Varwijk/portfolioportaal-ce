@@ -121,6 +121,8 @@ export interface LearningGoal {
   currentIndicativeLevel?: string;
   targetDate?: string;
   successDescription?: string;
+  masterSituation?: string;
+  achievementSignal?: string;
   evidenceIds?: string[];
   progressPercent?: number;
 }

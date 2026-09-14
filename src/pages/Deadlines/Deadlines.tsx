@@ -1,6 +1,6 @@
 import { useMemo, useState } from "react";
 import { Sparkles } from "lucide-react";
-import { mockDeadlines } from "../../data/mockData";
+import { officialDeadlines } from "../../data/officialData";
 import { Card } from "../../components/Card";
 import StatusBadge from "../../components/StatusBadge";
 import ContentOriginBadge from "../../components/ContentOriginBadge";
@@ -25,7 +25,7 @@ export default function Deadlines() {
   const weekStart = startOfWeek(today);
   const weekEnd = addDays(weekStart, 6);
 
-  const sorted = useMemo(() => [...mockDeadlines].sort((a, b) => a.date.localeCompare(b.date)), []);
+  const sorted = useMemo(() => [...officialDeadlines].sort((a, b) => a.date.localeCompare(b.date)), []);
 
   const filtered = sorted.filter((d) => {
     const date = new Date(d.date);
@@ -55,9 +55,15 @@ export default function Deadlines() {
       <div className="deadlines-header">
         <div>
           <h1>Deadlines</h1>
-          <p>Overzicht van alles wat ingeleverd moet worden, met prioriteit voor wat het eerst komt.</p>
+          <p>
+            Overzicht van alles wat ingeleverd moet worden, met prioriteit voor wat het eerst komt. Bron:{" "}
+            <a href="https://fabianb88.github.io/minor-ce-studentenhandleiding/planning.html" target="_blank" rel="noreferrer">
+              studentenhandleiding - planning
+            </a>
+            .
+          </p>
         </div>
-        <ContentOriginBadge origin="MOCKDATA" />
+        <ContentOriginBadge origin="OFFICIAL_CONTENT" />
       </div>
 
       <Card className="whatnow-card">

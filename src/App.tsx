@@ -1,15 +1,16 @@
 import { Routes, Route } from "react-router-dom";
-import { Target, BarChart3, FileText, PenLine, Folder, BookOpen, FileCheck2, GraduationCap, Users, Mail, Settings } from "lucide-react";
+import { Target, BarChart3, FileText, PenLine, Folder, BookOpen, GraduationCap, Users, Mail, Settings } from "lucide-react";
 import AppShell from "./layout/AppShell";
 import Dashboard from "./pages/Dashboard";
 import Planning from "./pages/Planning/Planning";
 import Deadlines from "./pages/Deadlines/Deadlines";
 import StakesOverview from "./pages/Stakes/StakesOverview";
 import StakeDetail from "./pages/Stakes/StakeDetail";
+import Materials from "./pages/Materials/Materials";
 import PlaceholderPage from "./pages/PlaceholderPage";
 
-const STUDIEGIDS_BLOCKER =
-  "Wacht op de officiele studiehandleiding van de minor om deadlines, Lowstakes/Midstakes en E-learningmodules te kunnen invullen (mag niet worden verzonnen).";
+const NO_ELEARNING_NOTE =
+  "Deze minor werkt niet met klassieke E-learningmodules (video/quiz), maar met 18 downloadbare hulpmiddelen per Double Diamond-fase. Zie de pagina Materialen voor het officiele overzicht.";
 const BACKEND_BLOCKER =
   "Wacht op configuratie van Supabase (database/storage) om deze module met echte data te vullen.";
 const MS_BLOCKER =
@@ -29,9 +30,9 @@ export default function App() {
         <Route path="/documenten" element={<PlaceholderPage title="Documenten" blocker={BACKEND_BLOCKER} icon={<FileText size={22} />} />} />
         <Route path="/reflectie" element={<PlaceholderPage title="Reflectie" blocker={BACKEND_BLOCKER} icon={<PenLine size={22} />} />} />
         <Route path="/portfolio" element={<PlaceholderPage title="Portfolio" blocker={BACKEND_BLOCKER} icon={<Folder size={22} />} />} />
-        <Route path="/e-learning" element={<PlaceholderPage title="E-learning" blocker={STUDIEGIDS_BLOCKER} icon={<BookOpen size={22} />} />} />
-        <Route path="/toetsmateriaal" element={<PlaceholderPage title="Toetsmateriaal" blocker={STUDIEGIDS_BLOCKER} icon={<FileCheck2 size={22} />} />} />
-        <Route path="/samenvattingen" element={<PlaceholderPage title="Samenvattingen" blocker={STUDIEGIDS_BLOCKER} icon={<GraduationCap size={22} />} />} />
+        <Route path="/e-learning" element={<PlaceholderPage title="E-learning" blocker={NO_ELEARNING_NOTE} icon={<BookOpen size={22} />} />} />
+        <Route path="/toetsmateriaal" element={<Materials />} />
+        <Route path="/samenvattingen" element={<PlaceholderPage title="Samenvattingen" blocker={BACKEND_BLOCKER} icon={<GraduationCap size={22} />} />} />
         <Route path="/samenwerken" element={<PlaceholderPage title="Samenwerken" blocker={BACKEND_BLOCKER} icon={<Users size={22} />} />} />
         <Route path="/outlook" element={<PlaceholderPage title="Outlook" blocker={MS_BLOCKER} icon={<Mail size={22} />} />} />
         <Route path="/instellingen" element={<PlaceholderPage title="Instellingen" blocker={BACKEND_BLOCKER} icon={<Settings size={22} />} />} />

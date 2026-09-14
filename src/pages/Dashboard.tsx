@@ -1,14 +1,20 @@
-import { Target, ClipboardList, Compass, BarChart3, Plus, CheckSquare } from "lucide-react";
+import { Target, ClipboardList, Compass, BarChart3, CheckSquare } from "lucide-react";
 import { Card, StatCard } from "../components/Card";
 import ContentOriginBadge from "../components/ContentOriginBadge";
-import {
-  mockProgress,
-  mockTasks,
-  mockDocuments,
-  mockELearning,
-  mockLearningGoals,
-} from "../data/mockData";
+import { mockProgress, mockDocuments, mockLearningGoals } from "../data/mockData";
+import { officialDeadlines, officialMaterials } from "../data/officialData";
+import { formatNL } from "../lib/date";
 import "./Dashboard.css";
+
+const materialsByPhase = officialMaterials.reduce<Record<string, number>>((acc, m) => {
+  acc[m.phase] = (acc[m.phase] ?? 0) + 1;
+  return acc;
+}, {});
+
+const upcomingDeadlines = [...officialDeadlines]
+  .filter((d) => d.status !== "ingeleverd" && d.status !== "afgerond")
+  .sort((a, b) => a.date.localeCompare(b.date))
+  .slice(0, 5);
 
 export default function Dashboard() {
   const p = mockProgress;
@@ -16,10 +22,10 @@ export default function Dashboard() {
   return (
     <div className="dashboard">
       <div className="mockdata-banner">
-        <ContentOriginBadge origin="MOCKDATA" />
+        <ContentOriginBadge origin="OFFICIAL_CONTENT" />
         <span>
-          Alle cijfers en items op dit dashboard zijn demodata. Zodra de studiehandleiding is aangeleverd en
-          Supabase/Microsoft-integraties zijn geconfigureerd, wordt dit vervangen door echte data.
+          Deadlines en materialen hiernaast komen uit de officiele studentenhandleiding. Voortgang, leerdoelen en
+          documenten zijn nog <strong>DEMO/MOCKDATA</strong> zolang Supabase niet gekoppeld is.
         </span>
       </div>
 
@@ -35,7 +41,7 @@ export default function Dashboard() {
           icon={<Compass size={20} />}
           value={`${p.minorProgressPercent}%`}
           label="Voortgang minor"
-          sub={`${p.weeksDone} / ${p.weeksTotal} weken`}
+          sub={`Week ${p.weeksDone + 36} van ${p.weeksTotal} weken`}
         />
         <StatCard icon={<ClipboardList size={20} />} value={String(p.openDeadlines)} label="Open deadlines" />
         <StatCard
@@ -51,37 +57,29 @@ export default function Dashboard() {
       </div>
 
       <div className="dashboard-grid">
-        <Card
-          title="Mijn taken"
-          action={
-            <button className="btn-primary">
-              <Plus size={14} /> Nieuwe taak
-            </button>
-          }
-        >
+        <Card title="Eerstvolgende officiele momenten" action={<ContentOriginBadge origin="OFFICIAL_CONTENT" />}>
           <ul className="task-list">
-            {mockTasks.map((task) => (
-              <li key={task.id} className="task-row">
+            {upcomingDeadlines.map((d) => (
+              <li key={d.id} className="task-row">
                 <CheckSquare size={16} className="task-check" />
                 <div className="task-body">
-                  <div className="task-title">{task.title}</div>
-                  <div className="task-meta">{task.week}</div>
+                  <div className="task-title">{d.title}</div>
+                  <div className="task-meta">Week {d.week}</div>
                 </div>
-                <span className="task-due">{task.dueDate}</span>
+                <span className="task-due">{formatNL(new Date(d.date))}</span>
               </li>
             ))}
           </ul>
         </Card>
 
-        <Card title="E-learning voortgang">
+        <Card title="Materialen per fase" action={<ContentOriginBadge origin="OFFICIAL_CONTENT" />}>
           <ul className="module-list">
-            {mockELearning.map((m) => (
-              <li key={m.id} className="module-row">
+            {Object.entries(materialsByPhase).map(([phase, count]) => (
+              <li key={phase} className="module-row">
                 <div className="module-body">
-                  <div className="module-title">{m.title}</div>
-                  <div className="module-meta">{m.description}</div>
+                  <div className="module-title">{phase}</div>
+                  <div className="module-meta">{count} hulpmiddel{count === 1 ? "" : "en"}</div>
                 </div>
-                <div className="progress-pill">{m.progressPercent}%</div>
               </li>
             ))}
           </ul>

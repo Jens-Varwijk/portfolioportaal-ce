@@ -19,9 +19,9 @@ export default function StakesOverview() {
       <div className="stakes-header">
         <div>
           <h1>Lowstakes & Midstakes</h1>
-          <p>Alle opdrachten uit de minor, met status, doel en gekoppelde leerdoelen/vaardigheden.</p>
+          <p>Alle Lowstakes en de Midstake uit de studentenhandleiding, met status en gekoppelde leerdoelen/vaardigheden.</p>
         </div>
-        <ContentOriginBadge origin="MOCKDATA" />
+        <ContentOriginBadge origin="OFFICIAL_CONTENT" />
       </div>
 
       <div className="filter-row">

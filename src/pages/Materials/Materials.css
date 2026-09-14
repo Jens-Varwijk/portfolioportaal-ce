@@ -1,0 +1,89 @@
+.materials {
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+}
+
+.materials-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.materials-header h1 {
+  margin: 0 0 4px;
+  font-size: 22px;
+}
+
+.materials-header p {
+  margin: 0;
+  color: var(--text-muted);
+  font-size: 13px;
+  max-width: 640px;
+}
+
+.materials-header a {
+  color: var(--accent-strong);
+}
+
+.materials-phase h2 {
+  font-size: 14px;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  color: var(--text-muted);
+  margin: 0 0 10px;
+}
+
+.materials-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 12px;
+}
+
+.material-card {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.material-code {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--accent-strong);
+}
+
+.material-title {
+  font-size: 14.5px;
+  font-weight: 600;
+}
+
+.material-desc {
+  font-size: 12.5px;
+  color: var(--text-muted);
+  margin: 0;
+}
+
+.material-deliverable {
+  margin-top: 4px;
+  padding-top: 8px;
+  border-top: 1px solid var(--border);
+}
+
+.material-deliverable span {
+  font-size: 10.5px;
+  text-transform: uppercase;
+  color: var(--text-faint);
+}
+
+.material-deliverable p {
+  margin: 2px 0 0;
+  font-size: 12.5px;
+}
+
+.material-note {
+  margin: 8px 0 0;
+  font-size: 11px;
+  color: var(--text-faint);
+}

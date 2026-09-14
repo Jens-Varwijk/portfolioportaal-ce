@@ -1,4 +1,5 @@
-import { mockLowstakes, mockMidstakes, mockDeadlines, mockDocuments, mockLearningGoals, mockSkills } from "../../data/mockData";
+import { mockDocuments, mockLearningGoals, mockSkills } from "../../data/mockData";
+import { officialLowstakes, officialMidstakes, officialDeadlines } from "../../data/officialData";
 import type { Lowstake, Midstake } from "../../types/entities";
 
 export type StakeKind = "lowstake" | "midstake";
@@ -6,8 +7,8 @@ export type Stake = (Lowstake | Midstake) & { kind: StakeKind };
 
 export function allStakes(): Stake[] {
   return [
-    ...mockLowstakes.map((s) => ({ ...s, kind: "lowstake" as const })),
-    ...mockMidstakes.map((s) => ({ ...s, kind: "midstake" as const })),
+    ...officialLowstakes.map((s) => ({ ...s, kind: "lowstake" as const })),
+    ...officialMidstakes.map((s) => ({ ...s, kind: "midstake" as const })),
   ];
 }
 
@@ -17,7 +18,7 @@ export function findStake(id: string): Stake | undefined {
 
 export function deadlineFor(deadlineId?: string) {
   if (!deadlineId) return undefined;
-  return mockDeadlines.find((d) => d.id === deadlineId);
+  return officialDeadlines.find((d) => d.id === deadlineId);
 }
 
 export function documentsFor(ids?: string[]) {

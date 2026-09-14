@@ -1,10 +1,12 @@
-// LET OP: dit bestand bevat uitsluitend DEMO/MOCKDATA.
-// Deze data demonstreert technische functionaliteit en mag NOOIT als
-// officiele onderwijsinformatie worden behandeld (master prompt sectie 4).
-// Zodra de echte studiehandleiding beschikbaar is, wordt dit bestand vervangen
-// door data die is geextraheerd uit die bron (met bronverwijzing, sectie 6).
+// Dit bestand bevat twee soorten data:
+// - OFFICIAL_CONTENT komt uit src/data/officialData.ts (geextraheerd uit de
+//   studentenhandleiding, zie bronverwijzing daar) en wordt hier doorgegeven/gebruikt.
+// - Alles hieronder met origin "MOCKDATA" is puur DEMO-data om technische
+//   functionaliteit te tonen (master prompt sectie 4) en NOOIT officiele
+//   onderwijsinformatie.
 
-import type { Task, Deadline, ELearningModule, LearningGoal, Skill, Document, Notification, Lowstake, Midstake } from "../types/entities";
+import type { LearningGoal, Skill, Document, Notification, WeeklyReflection } from "../types/entities";
+import { officialDeadlines } from "./officialData";
 
 export const MOCK_USER = {
   id: "u1",
@@ -12,49 +14,27 @@ export const MOCK_USER = {
   email: "jens7038@gmail.com",
 };
 
+const WEEK_36_MONDAY = new Date("2026-08-31");
+const TOTAL_MINOR_WEEKS = 17; // week 36 t/m week 52 uit de studiehandleiding (planning.html)
+
+function currentTeachingWeeksDone(): number {
+  const now = new Date();
+  const diffWeeks = Math.floor((now.getTime() - WEEK_36_MONDAY.getTime()) / (7 * 24 * 60 * 60 * 1000));
+  return Math.max(0, Math.min(diffWeeks, TOTAL_MINOR_WEEKS));
+}
+
+const openOfficialDeadlines = officialDeadlines.filter((d) => d.status !== "ingeleverd" && d.status !== "afgerond");
+
 export const mockProgress = {
-  minorProgressPercent: 68,
-  weeksDone: 9,
-  weeksTotal: 16,
-  openDeadlines: 5,
-  learningGoalsAchieved: 4,
-  learningGoalsTotal: 6,
-  skillsInProgress: 7,
-  skillsTotal: 10,
+  minorProgressPercent: Math.round((currentTeachingWeeksDone() / TOTAL_MINOR_WEEKS) * 100),
+  weeksDone: currentTeachingWeeksDone(),
+  weeksTotal: TOTAL_MINOR_WEEKS,
+  openDeadlines: openOfficialDeadlines.length,
+  learningGoalsAchieved: 1,
+  learningGoalsTotal: 4,
+  skillsInProgress: 2,
+  skillsTotal: 2,
 };
-
-export const mockTasks: Task[] = [
-  { id: "t1", title: "Onderzoeksplan inleveren", week: "Week 2 - Onderzoek", dueDate: "2026-09-16", done: false, category: "deadline" },
-  { id: "t2", title: "Interview voorbereiden", week: "Week 3 - Field research", dueDate: "2026-09-18", done: false, category: "deadline" },
-  { id: "t3", title: "Concept reflectie schrijven", week: "Week 3 - Reflectie", dueDate: "2026-09-21", done: false, category: "lowstake" },
-  { id: "t4", title: "Voortgangsgesprek met coach", week: "Week 4", dueDate: "2026-09-23", done: false, category: "milestone" },
-  { id: "t5", title: "Eindverslag definitief maken", week: "Week 8", dueDate: "2026-10-15", done: false, category: "deadline" },
-];
-
-const kindByCategory: Record<string, string> = {
-  deadline: "Project",
-  lowstake: "Lowstake",
-  milestone: "Midstake",
-};
-
-const statusByTask: Record<string, Deadline["status"]> = {
-  t1: "bezig",
-  t2: "niet_gestart",
-  t3: "bijna_klaar",
-  t4: "niet_gestart",
-  t5: "niet_gestart",
-};
-
-export const mockDeadlines: Deadline[] = mockTasks.map((t) => ({
-  id: `d-${t.id}`,
-  title: t.title,
-  date: t.dueDate!,
-  description: t.week,
-  projectType: kindByCategory[t.category ?? "deadline"],
-  status: statusByTask[t.id] ?? "niet_gestart",
-  remainingWork: statusByTask[t.id] === "bijna_klaar" ? "Laatste check door coach" : "Uitwerken en inleveren",
-  origin: "MOCKDATA" as const,
-}));
 
 export const mockDocuments: Document[] = [
   { id: "doc1", fileName: "Onderzoeksplan_CE.docx", fileType: "word", uploadDate: "2026-09-12", category: "Opdracht" },
@@ -63,100 +43,96 @@ export const mockDocuments: Document[] = [
   { id: "doc4", fileName: "Concept_eindverslag.docx", fileType: "word", uploadDate: "2026-09-01", category: "Portfolio" },
 ];
 
-export const mockELearning: ELearningModule[] = [
-  { id: "el1", title: "Week 1 - Systeemdenken", description: "Video + opdrachten", progressPercent: 100, status: "afgerond", origin: "MOCKDATA" },
-  { id: "el2", title: "Week 2 - Circulaire strategieen", description: "Samenvatting + quiz", progressPercent: 60, status: "bezig", origin: "MOCKDATA" },
-  { id: "el3", title: "Week 3 - Materiaalstromen", description: "Literatuur + oefenvragen", progressPercent: 20, status: "bezig", origin: "MOCKDATA" },
-  { id: "el4", title: "Week 4 - Businessmodellen", description: "Samenvatting", progressPercent: 0, status: "niet_gestart", origin: "MOCKDATA" },
-];
-
-export const mockLowstakes: Lowstake[] = [
-  {
-    id: "ls1",
-    title: "Concept reflectie schrijven",
-    description: "Korte reflectie op je eerste weken in de minor, met focus op systeemdenken.",
-    goal: "Oefenen met gestructureerd reflecteren voordat het eindverslag volgt.",
-    startDate: "2026-09-08",
-    deadlineId: "d-t3",
-    status: "bijna_klaar",
-    taskIds: [],
-    documentIds: ["doc3"],
-    feedbackIds: [],
-    reflectionIds: [],
-    learningGoalIds: ["lg4"],
-    skillIds: [],
-    evidenceIds: [],
-    origin: "MOCKDATA",
-  },
-  {
-    id: "ls2",
-    title: "Literatuurscan circulaire strategieen",
-    description: "Verzamel en vat drie bronnen samen over circulaire businessmodellen.",
-    goal: "Basis leggen voor het onderzoeksplan.",
-    startDate: "2026-09-05",
-    status: "afgerond",
-    taskIds: [],
-    documentIds: ["doc2"],
-    feedbackIds: [],
-    reflectionIds: [],
-    learningGoalIds: ["lg2"],
-    skillIds: [],
-    evidenceIds: [],
-    origin: "MOCKDATA",
-  },
-];
-
-export const mockMidstakes: Midstake[] = [
-  {
-    id: "ms1",
-    title: "Voortgangsgesprek met coach",
-    description: "Tussentijds gesprek waarin je voortgang op leerdoelen en het onderzoek wordt besproken.",
-    goal: "Feedback ophalen en koers bepalen voor de tweede helft van de minor.",
-    startDate: "2026-09-01",
-    deadlineId: "d-t4",
-    assignmentDescription: "Bereid een korte voortgangspresentatie voor (max. 5 minuten) met je belangrijkste bevindingen tot nu toe.",
-    materials: ["Format voortgangsgesprek (nog aan te leveren via studiehandleiding)"],
-    status: "niet_gestart",
-    taskIds: [],
-    documentIds: [],
-    feedbackIds: [],
-    reflectionIds: [],
-    learningGoalIds: ["lg1", "lg3"],
-    skillIds: ["sk1"],
-    evidenceIds: [],
-    origin: "MOCKDATA",
-  },
-  {
-    id: "ms2",
-    title: "Eindverslag definitief maken",
-    description: "Het volledige onderzoeksverslag met alle bevindingen en aanbevelingen.",
-    goal: "Aantonen dat je de onderzoekscyclus zelfstandig kunt doorlopen.",
-    startDate: "2026-09-14",
-    deadlineId: "d-t5",
-    assignmentDescription: "Informatie niet beschikbaar in de aangeleverde studiehandleiding.",
-    materials: [],
-    status: "niet_gestart",
-    taskIds: [],
-    documentIds: ["doc4"],
-    feedbackIds: [],
-    reflectionIds: [],
-    learningGoalIds: [],
-    skillIds: [],
-    evidenceIds: [],
-    origin: "MOCKDATA",
-  },
-];
-
 export const mockLearningGoals: LearningGoal[] = [
-  { id: "lg1", title: "Systeemdenken toepassen", progressPercent: 80 },
-  { id: "lg2", title: "Duurzaamheidsstrategieen analyseren", progressPercent: 60 },
-  { id: "lg3", title: "Praktijkonderzoek uitvoeren", progressPercent: 40 },
-  { id: "lg4", title: "Professioneel communiceren", progressPercent: 100 },
+  {
+    id: "lg1",
+    title: "Systeemdenken toepassen",
+    why: "Ik wil complexe duurzaamheidsvraagstukken beter kunnen doorgronden in plaats van symptomen te bestrijden.",
+    destination: "Zelfstandig een systeemanalyse kunnen maken van een circulair vraagstuk.",
+    startSituation: "Ik denk vooral lineair en mis het overzicht bij complexe systemen.",
+    desiredSituation: "Ik kan een systeem in kaart brengen met actoren, stromen en feedbackloops.",
+    startLevel: "Beginnend",
+    targetLevel: "Zelfstandig toepassen",
+    currentIndicativeLevel: "Op weg naar zelfstandig",
+    targetDate: "2026-11-01",
+    successDescription: "Mijn coach en medestudenten herkennen systeemdenken terug in mijn analyses.",
+    masterSituation: "Een casusgesprek waarin ik gevraagd word oorzaken en gevolgen in een systeem te duiden.",
+    achievementSignal: "Ik kan zonder hulp een systeemplaat tekenen en toelichten.",
+    evidenceIds: [],
+    progressPercent: 80,
+  },
+  {
+    id: "lg2",
+    title: "Duurzaamheidsstrategieen analyseren",
+    why: "Voor mijn onderzoek moet ik bedrijfsstrategieen kunnen beoordelen op duurzaamheidswaarde.",
+    destination: "Een onderbouwd advies kunnen geven over een duurzaamheidsstrategie.",
+    startLevel: "Kent de theorie",
+    targetLevel: "Kan toepassen op een echte casus",
+    currentIndicativeLevel: "Kan met ondersteuning toepassen",
+    targetDate: "2026-10-15",
+    successDescription: "Mijn analyse van Fastned wordt door de coach als sterk beoordeeld.",
+    evidenceIds: [],
+    progressPercent: 60,
+  },
+  {
+    id: "lg3",
+    title: "Praktijkonderzoek uitvoeren",
+    why: "Ik heb weinig ervaring met veldonderzoek en wil dit onder de knie krijgen voor het eindverslag.",
+    destination: "Zelfstandig interviews en data-analyse kunnen opzetten en uitvoeren.",
+    startLevel: "Onervaren",
+    targetLevel: "Zelfstandig",
+    currentIndicativeLevel: "Eerste stappen gezet",
+    targetDate: "2026-10-01",
+    evidenceIds: [],
+    progressPercent: 40,
+  },
+  {
+    id: "lg4",
+    title: "Professioneel communiceren",
+    why: "Feedback uit vorige projecten was dat mijn schriftelijke communicatie beknopter en zakelijker mag.",
+    destination: "Heldere, beknopte rapportages en presentaties kunnen opleveren.",
+    startLevel: "Uitgebreid en informeel",
+    targetLevel: "Beknopt en professioneel",
+    currentIndicativeLevel: "Behaald",
+    targetDate: "2026-09-01",
+    successDescription: "Feedback op mijn laatste rapportage was overwegend positief over structuur en toon.",
+    evidenceIds: [],
+    progressPercent: 100,
+  },
 ];
 
 export const mockSkills: Skill[] = [
   { id: "sk1", title: "Systeemdenken toepassen", progressPercent: 80 },
   { id: "sk2", title: "Duurzaamheidsstrategieen analyseren", progressPercent: 60 },
+];
+
+export const mockWeeklyReflections: WeeklyReflection[] = [
+  {
+    id: "wr1",
+    learningGoalId: "lg1",
+    week: 1,
+    contribution: "Systeemplaat gemaakt van de casus in de eerste werkcollege.",
+    situation: "Groepsopdracht over materiaalstromen in de bouwsector.",
+    improvement: "Eerste keer dat ik een systeemplaat maakte, dus geen vergelijking mogelijk.",
+    obstacles: "Moeite om feedbackloops te herkennen.",
+    feedback: "Docent gaf aan dat de actoren duidelijk waren, loops nog mager.",
+    selfScore: 5,
+    evidenceIds: [],
+    nextStep: "Extra oefenen met feedbackloops aan de hand van het theorieboek.",
+  },
+  {
+    id: "wr2",
+    learningGoalId: "lg1",
+    week: 2,
+    contribution: "Feedbackloops toegevoegd aan een nieuwe systeemplaat, zelfstandig gemaakt.",
+    situation: "Individuele oefening bij E-learning week 2.",
+    improvement: "Loops zijn dit keer wel herkend en correct benoemd volgens de zelfcheck.",
+    obstacles: "Nog onzeker over het onderscheid tussen directe en indirecte relaties.",
+    feedback: "Nog geen feedback ontvangen.",
+    selfScore: 6,
+    evidenceIds: [],
+    nextStep: "Vraag stellen aan coach over direct/indirect onderscheid.",
+  },
 ];
 
 export const mockNotifications: Notification[] = [

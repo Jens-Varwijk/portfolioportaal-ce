@@ -1,6 +1,6 @@
 import { useMemo } from "react";
 import { useLocalStorage } from "../../lib/useLocalStorage";
-import { mockDeadlines } from "../../data/mockData";
+import { officialDeadlines } from "../../data/officialData";
 import type { PersonalActivity, OutlookEvent } from "../../types/entities";
 import type { ContentOrigin } from "../../types/content";
 
@@ -25,12 +25,14 @@ export function usePlanningItems() {
   const outlookEvents: OutlookEvent[] = []; // geblokkeerd: Microsoft Graph nog niet geconfigureerd
 
   const items = useMemo<PlanningItem[]>(() => {
-    const fromOpleiding: PlanningItem[] = mockDeadlines.map((d) => ({
+    const fromOpleiding: PlanningItem[] = officialDeadlines.map((d) => ({
       id: d.id,
       title: d.title,
       date: d.date,
+      startTime: d.time,
+      description: d.description,
       source: "opleiding",
-      origin: "MOCKDATA",
+      origin: "OFFICIAL_CONTENT",
     }));
 
     const fromPersonal: PlanningItem[] = personalActivities.map((a) => ({
