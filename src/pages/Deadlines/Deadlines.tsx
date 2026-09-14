@@ -4,7 +4,7 @@ import { officialDeadlines } from "../../data/officialData";
 import { Card } from "../../components/Card";
 import StatusBadge from "../../components/StatusBadge";
 import ContentOriginBadge from "../../components/ContentOriginBadge";
-import { addDays, formatNL, startOfWeek } from "../../lib/date";
+import { addDays, formatNL, parseISODate, startOfWeek } from "../../lib/date";
 import "./Deadlines.css";
 
 type Filter = "alles" | "deze_week" | "deze_maand" | "lowstakes" | "midstakes" | "ingeleverd" | "openstaand";
@@ -28,7 +28,7 @@ export default function Deadlines() {
   const sorted = useMemo(() => [...officialDeadlines].sort((a, b) => a.date.localeCompare(b.date)), []);
 
   const filtered = sorted.filter((d) => {
-    const date = new Date(d.date);
+    const date = parseISODate(d.date);
     switch (filter) {
       case "deze_week":
         return date >= weekStart && date <= weekEnd;
@@ -73,7 +73,7 @@ export default function Deadlines() {
         </div>
         {nextUp ? (
           <p>
-            Eerstvolgende deadline: <strong>{nextUp.title}</strong> op {formatNL(new Date(nextUp.date))}
+            Eerstvolgende deadline: <strong>{nextUp.title}</strong> op {formatNL(parseISODate(nextUp.date))}
             {nextUp.remainingWork ? ` — ${nextUp.remainingWork}.` : "."} Je hebt nog{" "}
             <strong>{openDeadlines.length}</strong> openstaande deadline(s).
           </p>
@@ -106,7 +106,7 @@ export default function Deadlines() {
               <StatusBadge status={d.status} />
             </div>
             <div className="deadline-card-bottom">
-              <span>{formatNL(new Date(d.date))}</span>
+              <span>{formatNL(parseISODate(d.date))}</span>
               {d.remainingWork && <span className="deadline-remaining">{d.remainingWork}</span>}
             </div>
           </Card>

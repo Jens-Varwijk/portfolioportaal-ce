@@ -1,6 +1,6 @@
 import { useMemo } from "react";
 import { useLocalStorage } from "../../lib/useLocalStorage";
-import { officialDeadlines } from "../../data/officialData";
+import { officialDeadlines, officialActivities } from "../../data/officialData";
 import type { PersonalActivity, OutlookEvent } from "../../types/entities";
 import type { ContentOrigin } from "../../types/content";
 
@@ -25,12 +25,23 @@ export function usePlanningItems() {
   const outlookEvents: OutlookEvent[] = []; // geblokkeerd: Microsoft Graph nog niet geconfigureerd
 
   const items = useMemo<PlanningItem[]>(() => {
-    const fromOpleiding: PlanningItem[] = officialDeadlines.map((d) => ({
+    const fromDeadlines: PlanningItem[] = officialDeadlines.map((d) => ({
       id: d.id,
       title: d.title,
       date: d.date,
       startTime: d.time,
       description: d.description,
+      source: "opleiding",
+      origin: "OFFICIAL_CONTENT",
+    }));
+
+    const fromSchedule: PlanningItem[] = officialActivities.map((a) => ({
+      id: a.id,
+      title: a.title,
+      date: a.date!,
+      startTime: a.startTime,
+      endTime: a.endTime,
+      description: a.description,
       source: "opleiding",
       origin: "OFFICIAL_CONTENT",
     }));
@@ -58,7 +69,7 @@ export function usePlanningItems() {
       origin: "OFFICIAL_CONTENT",
     }));
 
-    return [...fromOpleiding, ...fromPersonal, ...fromOutlook].sort((a, b) => a.date.localeCompare(b.date));
+    return [...fromDeadlines, ...fromSchedule, ...fromPersonal, ...fromOutlook].sort((a, b) => a.date.localeCompare(b.date));
   }, [personalActivities]);
 
   function addPersonalActivity(activity: Omit<PersonalActivity, "id">) {

@@ -1,5 +1,6 @@
 import { useState } from "react";
 import type { PersonalActivity } from "../../types/entities";
+import { toISODate } from "../../lib/date";
 import "./ActivityForm.css";
 
 export default function ActivityForm({
@@ -11,7 +12,7 @@ export default function ActivityForm({
 }) {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
-  const [date, setDate] = useState(() => new Date().toISOString().slice(0, 10));
+  const [date, setDate] = useState(() => toISODate(new Date()));
   const [startTime, setStartTime] = useState("");
   const [endTime, setEndTime] = useState("");
   const [type, setType] = useState("Persoonlijk");

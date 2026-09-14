@@ -9,7 +9,7 @@
 // eventuele wijzigingen verwijst de bron zelf altijd naar het officiële rooster —
 // dat geldt hier dus ook.
 
-import type { Deadline, Lowstake, Midstake } from "../types/entities";
+import type { Deadline, Lowstake, Midstake, OfficialActivity } from "../types/entities";
 
 const BASE_URL = "https://fabianb88.github.io/minor-ce-studentenhandleiding/";
 
@@ -163,3 +163,143 @@ export const officialMaterials: OfficialMaterial[] = [
   { id: "m17", code: "17", title: "Projectpaper", phase: "Deliver", description: "Bouw je projectverhaal op rond waarom het ertoe doet, hoe je werkt en wat je oplevert.", deliverable: "Een projectpaper plus je eigen rolbeschrijving", source: materialenSource("Deliver") },
   { id: "m18", code: "18", title: "Opleveren en presenteren", phase: "Deliver", description: "Draag je beroepsproduct zo over dat er ook zonder jou mee verder gewerkt wordt.", deliverable: "Een overgedragen beroepsproduct, een presentatie en een ingevuld overdrachtsformulier", source: materialenSource("Deliver") },
 ];
+
+// Volledige lesagenda (contactmomenten) uit planning.html, per week/dag/tijdblok.
+// Periode 1 (week 36-45): maandagdatum staat expliciet in de bron, donderdag = maandag + 3.
+// Periode 2 (week 46-51): de bron geeft geen expliciete data meer in tekstvorm; deze zijn
+// berekend vanaf het anker week 45 = 2 november 2026 (7 dagen per week verder). Gemarkeerd
+// met computed: true. Check bij twijfel altijd het officiele rooster (de bron zegt dit zelf ook).
+interface RawBlock {
+  week: number;
+  date: string;
+  day: "maandag" | "donderdag";
+  start: string;
+  end: string;
+  title: string;
+  people?: string;
+  computed?: boolean;
+}
+
+const rawSchedule: RawBlock[] = [
+  // Week 36 - 31 aug / 3 sep
+  { week: 36, date: "2026-08-31", day: "maandag", start: "13:00", end: "17:00", title: "Kick-off", people: "Alle docenten (opdrachtgevers vanaf 15:00)" },
+  { week: 36, date: "2026-09-03", day: "donderdag", start: "09:45", end: "11:30", title: "Theorie waardecreatie 1&2", people: "Anouk Brinker" },
+  { week: 36, date: "2026-09-03", day: "donderdag", start: "12:15", end: "13:45", title: "Project - Professionele ontwikkeling", people: "Anouk Brinker" },
+  { week: 36, date: "2026-09-03", day: "donderdag", start: "14:30", end: "17:00", title: "Vaardigheden AI", people: "Fabian Berndsen" },
+  // Week 37 - 7 sep / 10 sep
+  { week: 37, date: "2026-09-07", day: "maandag", start: "09:45", end: "11:30", title: "Projectvaardigheden", people: "Charlotte Bronckhorst" },
+  { week: 37, date: "2026-09-07", day: "maandag", start: "13:00", end: "14:30", title: "Intervisie", people: "Charlotte Bronckhorst" },
+  { week: 37, date: "2026-09-07", day: "maandag", start: "15:30", end: "17:00", title: "Business Ethiek 1", people: "Kim Meijer" },
+  { week: 37, date: "2026-09-10", day: "donderdag", start: "09:45", end: "11:30", title: "Theorie 3", people: "Liard Kranen" },
+  { week: 37, date: "2026-09-10", day: "donderdag", start: "12:15", end: "13:45", title: "Project - Professionele ontwikkeling", people: "Anouk Brinker" },
+  { week: 37, date: "2026-09-10", day: "donderdag", start: "14:30", end: "16:15", title: "AI Playground", people: "Guus Witjes" },
+  // Week 38 - 14 sep / 17 sep
+  { week: 38, date: "2026-09-14", day: "maandag", start: "09:45", end: "11:30", title: "Vaardigheden AI", people: "Fabian Berndsen" },
+  { week: 38, date: "2026-09-14", day: "maandag", start: "13:00", end: "14:30", title: "AI Challenge & Procescoaching", people: "Fabian Berndsen, Charlotte Bronckhorst" },
+  { week: 38, date: "2026-09-14", day: "maandag", start: "15:30", end: "17:00", title: "Business Ethiek 2", people: "Michiel Kamphuis" },
+  { week: 38, date: "2026-09-17", day: "donderdag", start: "09:45", end: "11:30", title: "Theorie 4", people: "Anouk Brinker" },
+  { week: 38, date: "2026-09-17", day: "donderdag", start: "14:30", end: "16:15", title: "Kennismaken opdrachtgever" },
+  // Week 39 - 21 sep / 24 sep
+  { week: 39, date: "2026-09-21", day: "maandag", start: "09:45", end: "11:30", title: "Projectvaardigheden", people: "Charlotte Bronckhorst" },
+  { week: 39, date: "2026-09-21", day: "maandag", start: "13:00", end: "14:30", title: "Intervisie", people: "Charlotte Bronckhorst" },
+  { week: 39, date: "2026-09-21", day: "maandag", start: "15:30", end: "17:00", title: "Business Ethiek 3", people: "Fabian Berndsen" },
+  { week: 39, date: "2026-09-24", day: "donderdag", start: "09:45", end: "11:30", title: "Theorie 5", people: "Paul Brouwer" },
+  { week: 39, date: "2026-09-24", day: "donderdag", start: "12:15", end: "13:45", title: "Project - Professionele ontwikkeling", people: "Anouk Brinker" },
+  { week: 39, date: "2026-09-24", day: "donderdag", start: "14:30", end: "16:15", title: "AI Playground", people: "Guus Witjes" },
+  // Week 40 - 28 sep / 1 okt
+  { week: 40, date: "2026-09-28", day: "maandag", start: "09:45", end: "11:30", title: "Vaardigheden AI", people: "Fabian Berndsen" },
+  { week: 40, date: "2026-09-28", day: "maandag", start: "13:00", end: "14:30", title: "AI Challenge & Procescoaching", people: "Fabian Berndsen, Charlotte Bronckhorst" },
+  { week: 40, date: "2026-09-28", day: "maandag", start: "15:30", end: "17:00", title: "Business Ethiek 4", people: "Michiel Kamphuis" },
+  { week: 40, date: "2026-10-01", day: "donderdag", start: "09:45", end: "11:30", title: "Theorie 6", people: "Anouk Brinker" },
+  // Week 41 - 5 okt / 8 okt
+  { week: 41, date: "2026-10-05", day: "maandag", start: "09:45", end: "11:30", title: "Projectvaardigheden", people: "Charlotte Bronckhorst" },
+  { week: 41, date: "2026-10-05", day: "maandag", start: "13:00", end: "14:30", title: "Intervisie", people: "Charlotte Bronckhorst" },
+  { week: 41, date: "2026-10-05", day: "maandag", start: "15:30", end: "17:00", title: "Business Ethiek 5", people: "Fabian Berndsen" },
+  { week: 41, date: "2026-10-08", day: "donderdag", start: "09:45", end: "11:30", title: "Theorie 7", people: "Didier Piets" },
+  { week: 41, date: "2026-10-08", day: "donderdag", start: "12:15", end: "13:45", title: "Project - Professionele ontwikkeling", people: "Anouk Brinker" },
+  { week: 41, date: "2026-10-08", day: "donderdag", start: "14:30", end: "16:15", title: "AI Playground", people: "Guus Witjes" },
+  // Week 42 - 12 okt / 15 okt
+  { week: 42, date: "2026-10-12", day: "maandag", start: "09:45", end: "11:30", title: "Vaardigheden AI", people: "Fabian Berndsen" },
+  { week: 42, date: "2026-10-12", day: "maandag", start: "13:00", end: "14:30", title: "AI Challenge & Procescoaching", people: "Fabian Berndsen, Charlotte Bronckhorst" },
+  { week: 42, date: "2026-10-12", day: "maandag", start: "15:30", end: "17:00", title: "Business Ethiek 6", people: "Michiel Kamphuis" },
+  { week: 42, date: "2026-10-15", day: "donderdag", start: "12:15", end: "16:15", title: "Battle", people: "Alle docenten" },
+  // Week 44 - 26 okt = geen contactmoment. Het Tentamen (29 okt) staat al in officialDeadlines.
+  // Week 46 (berekend)
+  { week: 46, date: "2026-11-09", day: "maandag", start: "10:00", end: "11:00", title: "Stand-up", people: "Charlotte Bronckhorst", computed: true },
+  { week: 46, date: "2026-11-09", day: "maandag", start: "13:00", end: "14:30", title: "Intervisie", people: "Charlotte Bronckhorst", computed: true },
+  { week: 46, date: "2026-11-09", day: "maandag", start: "15:30", end: "17:00", title: "Vaardigheden JIT", people: "Fabian Berndsen", computed: true },
+  { week: 46, date: "2026-11-12", day: "donderdag", start: "10:00", end: "11:30", title: "Project - Professionele ontwikkeling", people: "Anouk Brinker", computed: true },
+  { week: 46, date: "2026-11-12", day: "donderdag", start: "12:30", end: "14:00", title: "AI Playground", people: "Guus Witjes", computed: true },
+  // Week 47 (berekend)
+  { week: 47, date: "2026-11-16", day: "maandag", start: "10:00", end: "11:00", title: "AI Challenge", people: "Fabian Berndsen", computed: true },
+  { week: 47, date: "2026-11-16", day: "maandag", start: "13:00", end: "14:30", title: "Procescoaching", people: "Charlotte Bronckhorst", computed: true },
+  { week: 47, date: "2026-11-19", day: "donderdag", start: "10:00", end: "11:30", title: "Project - Deliverables", people: "Anouk Brinker", computed: true },
+  { week: 47, date: "2026-11-19", day: "donderdag", start: "12:30", end: "14:00", title: "Project - Lowstake", people: "Anouk Brinker en Experts", computed: true },
+  // Week 48 (berekend)
+  { week: 48, date: "2026-11-23", day: "maandag", start: "10:00", end: "11:00", title: "Stand-up", people: "Charlotte Bronckhorst", computed: true },
+  { week: 48, date: "2026-11-23", day: "maandag", start: "13:00", end: "14:30", title: "Intervisie", people: "Charlotte Bronckhorst", computed: true },
+  { week: 48, date: "2026-11-23", day: "maandag", start: "15:30", end: "17:00", title: "Vaardigheden JIT", people: "Fabian Berndsen", computed: true },
+  { week: 48, date: "2026-11-26", day: "donderdag", start: "10:00", end: "11:30", title: "Project - Professionele ontwikkeling", people: "Anouk Brinker", computed: true },
+  { week: 48, date: "2026-11-26", day: "donderdag", start: "12:30", end: "14:00", title: "AI Playground", people: "Guus Witjes", computed: true },
+  // Week 49 (berekend)
+  { week: 49, date: "2026-11-30", day: "maandag", start: "10:00", end: "11:00", title: "AI Challenge", people: "Fabian Berndsen", computed: true },
+  { week: 49, date: "2026-11-30", day: "maandag", start: "13:00", end: "14:30", title: "Procescoaching", people: "Charlotte Bronckhorst", computed: true },
+  { week: 49, date: "2026-12-03", day: "donderdag", start: "10:00", end: "11:30", title: "Project - Deliverables", people: "Anouk Brinker", computed: true },
+  { week: 49, date: "2026-12-03", day: "donderdag", start: "12:30", end: "14:00", title: "Project - Lowstake", people: "Anouk Brinker en Experts", computed: true },
+  // Week 50 (berekend)
+  { week: 50, date: "2026-12-07", day: "maandag", start: "10:00", end: "11:00", title: "Stand-up", people: "Charlotte Bronckhorst", computed: true },
+  { week: 50, date: "2026-12-07", day: "maandag", start: "13:00", end: "14:30", title: "Intervisie", people: "Charlotte Bronckhorst", computed: true },
+  { week: 50, date: "2026-12-07", day: "maandag", start: "15:30", end: "17:00", title: "Vaardigheden JIT", people: "Fabian Berndsen", computed: true },
+  { week: 50, date: "2026-12-10", day: "donderdag", start: "10:00", end: "11:30", title: "Project - Professionele ontwikkeling", people: "Anouk Brinker", computed: true },
+  { week: 50, date: "2026-12-10", day: "donderdag", start: "12:30", end: "14:00", title: "AI Playground", people: "Guus Witjes", computed: true },
+  // Week 51 (berekend)
+  { week: 51, date: "2026-12-14", day: "maandag", start: "10:00", end: "11:00", title: "AI Challenge", people: "Fabian Berndsen", computed: true },
+  { week: 51, date: "2026-12-14", day: "maandag", start: "13:00", end: "14:30", title: "Procescoaching", people: "Charlotte Bronckhorst", computed: true },
+  { week: 51, date: "2026-12-17", day: "donderdag", start: "10:00", end: "11:30", title: "Project - Deliverables", people: "Anouk Brinker", computed: true },
+  { week: 51, date: "2026-12-17", day: "donderdag", start: "12:30", end: "14:00", title: "Project - Circulaire Oogst", people: "Alle docenten", computed: true },
+];
+
+// Dominante fase per week, uit de laatste kolom van de planningstabel.
+// "Ideate" heeft geen eigen kolom in materialen.html - de ideate-hulpmiddelen
+// (13-16, Brainstorm t/m Testen) staan daar onder "Develop".
+export const weekPhase: Record<number, string> = {
+  36: "Discover",
+  37: "Discover",
+  38: "Discover",
+  39: "Define",
+  40: "Define",
+  41: "Ideate",
+  42: "Ideate",
+  44: "Tentamen",
+  45: "Ideate",
+  46: "Ideate",
+  47: "Ideate",
+  48: "Develop",
+  49: "Develop",
+  50: "Develop",
+  51: "Deliver",
+};
+
+export function materialsForWeek(week: number) {
+  const phase = weekPhase[week];
+  const phaseKey = phase === "Ideate" ? "Develop" : phase;
+  const alwaysRelevant = officialMaterials.filter((m) => m.phase === "De hele minor door");
+  const phaseRelevant = phaseKey ? officialMaterials.filter((m) => m.phase === phaseKey) : [];
+  return { phase, materials: [...phaseRelevant, ...alwaysRelevant] };
+}
+
+export const officialActivities: OfficialActivity[] = rawSchedule.map((b, i) => ({
+  id: `act-${b.week}-${b.day}-${i}`,
+  title: b.title,
+  week: b.week,
+  date: b.date,
+  startTime: b.start,
+  endTime: b.end,
+  description: b.people,
+  origin: "OFFICIAL_CONTENT",
+  source: {
+    sourceDocument: `${BASE_URL}planning.html`,
+    sourceSection: b.week <= 45 ? "Planning - Periode 1" : "Planning - Periode 2",
+    sourceLabel: `Week ${b.week}, ${b.day}${b.computed ? " (datum berekend, check rooster)" : ""}`,
+  },
+}));

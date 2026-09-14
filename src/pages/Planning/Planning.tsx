@@ -1,10 +1,20 @@
 import { useMemo, useState } from "react";
-import { Plus, ChevronLeft, ChevronRight, Trash2 } from "lucide-react";
+import { Link } from "react-router-dom";
+import { Plus, ChevronLeft, ChevronRight, Trash2, BookOpen } from "lucide-react";
 import { usePlanningItems, type PlanningItem, type PlanningSource } from "./usePlanningItems";
 import ActivityForm from "./ActivityForm";
 import ContentOriginBadge from "../../components/ContentOriginBadge";
-import { addDays, daysInMonth, formatNL, isSameDay, monthName, startOfMonth, startOfWeek, toISODate, weekdayShort } from "../../lib/date";
+import { Card } from "../../components/Card";
+import { materialsForWeek } from "../../data/officialData";
+import { addDays, daysInMonth, formatNL, isSameDay, monthName, parseISODate, startOfMonth, startOfWeek, toISODate, weekdayShort } from "../../lib/date";
 import "./Planning.css";
+
+const WEEK_36_MONDAY = parseISODate("2026-08-31");
+function weekNumberFor(date: Date) {
+  const monday = startOfWeek(date);
+  const diffDays = Math.round((monday.getTime() - WEEK_36_MONDAY.getTime()) / 86400000);
+  return 36 + Math.floor(diffDays / 7);
+}
 
 type ViewMode = "dag" | "week" | "maand" | "agenda" | "tijdlijn";
 
@@ -15,7 +25,7 @@ const sourceLabel: Record<PlanningSource, string> = {
 };
 
 function itemsOnDay(items: PlanningItem[], day: Date) {
-  return items.filter((i) => isSameDay(new Date(i.date), day));
+  return items.filter((i) => isSameDay(parseISODate(i.date), day));
 }
 
 function ItemPill({ item, onDelete }: { item: PlanningItem; onDelete?: () => void }) {
@@ -28,6 +38,7 @@ function ItemPill({ item, onDelete }: { item: PlanningItem; onDelete?: () => voi
           <div className="planning-item-time">
             {item.startTime}
             {item.endTime ? ` - ${item.endTime}` : ""}
+            {item.description ? ` · ${item.description}` : ""}
           </div>
         )}
       </div>
@@ -63,6 +74,9 @@ export default function Planning() {
     else if (view === "week") setCursor((c) => addDays(c, amount * 7));
     else setCursor((c) => new Date(c.getFullYear(), c.getMonth() + amount, 1));
   }
+
+  const currentWeekNumber = weekNumberFor(cursor);
+  const weekMaterials = useMemo(() => materialsForWeek(currentWeekNumber), [currentWeekNumber]);
 
   return (
     <div className="planning">
@@ -123,6 +137,25 @@ export default function Planning() {
           </div>
         )}
       </div>
+
+      {(view === "dag" || view === "week") && weekMaterials.phase && weekMaterials.phase !== "Tentamen" && (
+        <Card className="week-materials-card">
+          <div className="week-materials-header">
+            <BookOpen size={15} />
+            <span>
+              Week {currentWeekNumber} · dominante fase <strong>{weekMaterials.phase}</strong> — relevante hulpmiddelen:
+            </span>
+            <ContentOriginBadge origin="OFFICIAL_CONTENT" />
+          </div>
+          <div className="week-materials-list">
+            {weekMaterials.materials.map((m) => (
+              <Link key={m.id} to="/toetsmateriaal" className="week-material-chip">
+                {m.code}. {m.title}
+              </Link>
+            ))}
+          </div>
+        </Card>
+      )}
 
       {view === "dag" && (
         <div className="card">
@@ -187,7 +220,7 @@ export default function Planning() {
             <div key={i.id} className={view === "tijdlijn" ? "timeline-row" : undefined}>
               {view === "tijdlijn" && <span className={`timeline-dot source-${i.source}`} />}
               <div style={{ flex: 1 }}>
-                <div className="planning-item-date">{formatNL(new Date(i.date))}</div>
+                <div className="planning-item-date">{formatNL(parseISODate(i.date))}</div>
                 <ItemPill item={i} onDelete={() => removePersonalActivity(i.id)} />
               </div>
             </div>

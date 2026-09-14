@@ -3,7 +3,7 @@ import { Card, StatCard } from "../components/Card";
 import ContentOriginBadge from "../components/ContentOriginBadge";
 import { mockProgress, mockDocuments, mockLearningGoals } from "../data/mockData";
 import { officialDeadlines, officialMaterials } from "../data/officialData";
-import { formatNL } from "../lib/date";
+import { formatNL, parseISODate } from "../lib/date";
 import "./Dashboard.css";
 
 const materialsByPhase = officialMaterials.reduce<Record<string, number>>((acc, m) => {
@@ -66,7 +66,7 @@ export default function Dashboard() {
                   <div className="task-title">{d.title}</div>
                   <div className="task-meta">Week {d.week}</div>
                 </div>
-                <span className="task-due">{formatNL(new Date(d.date))}</span>
+                <span className="task-due">{formatNL(parseISODate(d.date))}</span>
               </li>
             ))}
           </ul>

@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { Card } from "../../components/Card";
 import StatusBadge from "../../components/StatusBadge";
 import ContentOriginBadge from "../../components/ContentOriginBadge";
-import { formatNL } from "../../lib/date";
+import { formatNL, parseISODate } from "../../lib/date";
 import { allStakes, deadlineFor } from "./stakesUtils";
 import type { StakeKind } from "./stakesUtils";
 import "./Stakes.css";
@@ -46,7 +46,7 @@ export default function StakesOverview() {
                   <StatusBadge status={s.status} />
                 </div>
                 {s.goal && <p className="stake-goal">{s.goal}</p>}
-                {deadline && <div className="stake-deadline">Deadline: {formatNL(new Date(deadline.date))}</div>}
+                {deadline && <div className="stake-deadline">Deadline: {formatNL(parseISODate(deadline.date))}</div>}
               </Card>
             </Link>
           );

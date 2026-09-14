@@ -7,6 +7,7 @@
 
 import type { LearningGoal, Skill, Document, Notification, WeeklyReflection } from "../types/entities";
 import { officialDeadlines } from "./officialData";
+import { parseISODate } from "../lib/date";
 
 export const MOCK_USER = {
   id: "u1",
@@ -14,7 +15,7 @@ export const MOCK_USER = {
   email: "jens7038@gmail.com",
 };
 
-const WEEK_36_MONDAY = new Date("2026-08-31");
+const WEEK_36_MONDAY = parseISODate("2026-08-31");
 const TOTAL_MINOR_WEEKS = 17; // week 36 t/m week 52 uit de studiehandleiding (planning.html)
 
 function currentTeachingWeeksDone(): number {

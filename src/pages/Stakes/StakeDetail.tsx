@@ -4,7 +4,7 @@ import { Card } from "../../components/Card";
 import StatusBadge from "../../components/StatusBadge";
 import ContentOriginBadge from "../../components/ContentOriginBadge";
 import EmptyState from "../../components/EmptyState";
-import { formatNL } from "../../lib/date";
+import { formatNL, parseISODate } from "../../lib/date";
 import { findStake, deadlineFor, documentsFor, learningGoalsFor, skillsFor } from "./stakesUtils";
 import type { Midstake } from "../../types/entities";
 import "./Stakes.css";
@@ -77,11 +77,11 @@ export default function StakeDetail() {
             <dl className="meta-list">
               <div>
                 <dt>Startmoment</dt>
-                <dd>{stake.startDate ? formatNL(new Date(stake.startDate)) : "Onbekend"}</dd>
+                <dd>{stake.startDate ? formatNL(parseISODate(stake.startDate)) : "Onbekend"}</dd>
               </div>
               <div>
                 <dt>Deadline</dt>
-                <dd>{deadline ? formatNL(new Date(deadline.date)) : "Geen gekoppelde deadline"}</dd>
+                <dd>{deadline ? formatNL(parseISODate(deadline.date)) : "Geen gekoppelde deadline"}</dd>
               </div>
             </dl>
           </Card>
