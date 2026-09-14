@@ -1,0 +1,30 @@
+.origin-badge {
+  display: inline-flex;
+  align-items: center;
+  font-size: 11px;
+  font-weight: 600;
+  padding: 2px 8px;
+  border-radius: 999px;
+  letter-spacing: 0.02em;
+}
+
+.origin-official_content {
+  background: rgba(124, 92, 255, 0.16);
+  color: var(--official);
+}
+
+.origin-user_content {
+  background: rgba(52, 211, 153, 0.16);
+  color: var(--user);
+}
+
+.origin-generated_content {
+  background: rgba(251, 191, 36, 0.16);
+  color: var(--generated);
+}
+
+.origin-mockdata {
+  background: rgba(111, 106, 140, 0.2);
+  color: var(--text-muted);
+  border: 1px dashed var(--text-faint);
+}
