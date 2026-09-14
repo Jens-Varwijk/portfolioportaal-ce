@@ -1,0 +1,97 @@
+.outlook-login {
+  max-width: 420px;
+  margin: 60px auto;
+  text-align: center;
+  color: var(--text-muted);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+.outlook-login svg {
+  color: var(--accent-strong);
+}
+
+.outlook-login h2 {
+  margin: 0;
+  color: var(--text);
+  font-size: 18px;
+}
+
+.outlook-login p {
+  margin: 0 0 8px;
+  font-size: 13px;
+}
+
+.outlook {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.outlook-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.outlook-header h1 {
+  margin: 0 0 4px;
+  font-size: 22px;
+}
+
+.outlook-header p {
+  margin: 0;
+  color: var(--text-muted);
+  font-size: 13px;
+}
+
+.outlook-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+
+.mail-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.mail-row {
+  padding: 9px 6px;
+  border-radius: var(--radius-sm);
+}
+
+.mail-row:hover {
+  background: var(--bg-card-hover);
+}
+
+.mail-from {
+  font-size: 11.5px;
+  color: var(--accent-strong);
+}
+
+.mail-subject {
+  font-size: 13.5px;
+  font-weight: 500;
+}
+
+.mail-preview {
+  font-size: 12px;
+  color: var(--text-muted);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+@media (max-width: 900px) {
+  .outlook-grid {
+    grid-template-columns: 1fr;
+  }
+}

@@ -14,7 +14,8 @@ Ontwikkelen → Bewijs verzamelen → Portfolio opbouwen**, gebouwd volgens het 
 - ✅ Dashboard combineert officiele data met demo-data (duidelijk gelabeld per widget)
 - ⏳ **Geblokkeerd:** Supabase (database/storage) is nog niet gekoppeld — nodig voor Leerdoelen, Vaardigheden,
   Documenten, Reflectie, Portfolio, Samenwerken (deze modules gebruiken nu localStorage of demo-data).
-- ⏳ **Geblokkeerd:** Microsoft Entra ID / Graph API is nog niet geconfigureerd — nodig voor Outlook-integratie.
+- ✅ Microsoft-login (MSAL) + Outlook-pagina (mail/agenda via Graph) is **klaargebouwd** maar nog niet actief: er
+  is nog geen app-registratie in Entra ID. Zie "Microsoft-integratie activeren" hieronder.
 - ℹ️ Deze minor werkt projectmatig via de Double Diamond (Discover/Define/Develop/Deliver) met 18 hulpmiddelen in
   plaats van klassieke E-learningmodules — de E-learning-pagina legt dit uit en verwijst door naar Materialen.
 
@@ -53,6 +54,22 @@ automatisch bouwt en publiceert naar GitHub Pages. Zorg dat in **Settings → Pa
 
 De site draait op een relatieve base-URL (`/portfolioportaal-ce/`, zie `vite.config.ts`) en gebruikt een
 `HashRouter` zodat directe links naar subpagina's ook op Pages werken zonder server-side routing.
+
+## Microsoft-integratie activeren
+
+1. Maak een app-registratie in [Azure Portal](https://portal.azure.com) → Microsoft Entra ID → App-registraties:
+   - Type: Single-page application (SPA)
+   - Redirect URI: `https://jens-varwijk.github.io/portfolioportaal-ce/`
+   - API-machtigingen (Microsoft Graph, gedelegeerd): `User.Read`, `Mail.Read`, `Calendars.Read`, `Calendars.ReadWrite`
+2. Noteer de **Application (client) ID** en **Directory (tenant) ID**.
+3. Voor lokaal ontwikkelen: kopieer `.env.example` naar `.env` en vul beide waarden in.
+4. Voor de live site (GitHub Actions build-time env): zet ze als repository variables:
+   ```bash
+   gh variable set VITE_MS_CLIENT_ID --body "<client-id>"
+   gh variable set VITE_MS_TENANT_ID --body "<tenant-id>"
+   ```
+5. Push (of herstart de workflow) — de Outlook-pagina toont dan automatisch een "Inloggen met Microsoft"-knop
+   in plaats van de configuratiemelding.
 
 ## Volgende stappen
 
