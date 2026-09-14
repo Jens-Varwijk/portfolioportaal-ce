@@ -9,7 +9,8 @@
 // eventuele wijzigingen verwijst de bron zelf altijd naar het officiële rooster —
 // dat geldt hier dus ook.
 
-import type { Deadline, Lowstake, Midstake, OfficialActivity } from "../types/entities";
+import type { Deadline, Lowstake, Midstake, OfficialActivity, ELearningModule, Status } from "../types/entities";
+import { parseISODate } from "../lib/date";
 
 const BASE_URL = "https://fabianb88.github.io/minor-ce-studentenhandleiding/";
 
@@ -303,3 +304,79 @@ export const officialActivities: OfficialActivity[] = rawSchedule.map((b, i) => 
     sourceLabel: `Week ${b.week}, ${b.day}${b.computed ? " (datum berekend, check rooster)" : ""}`,
   },
 }));
+
+// Deze minor heeft geen losse E-learningmodules (video/quiz) - de dichtstbijzijnde
+// equivalent zijn de terugkerende, genummerde lessessies uit het rooster (Theorie 1-7,
+// Business Ethiek 1-6, etc). Die worden hier gegroepeerd tot "modules" met een
+// voortgang die objectief is afgeleid uit de datum (sessie geweest = afgerond) -
+// geen zelfgerapporteerde of verzonnen voortgang.
+const seriesKeyByTitle: Record<string, string> = {
+  "Theorie waardecreatie 1&2": "Theorie",
+  "Theorie 3": "Theorie",
+  "Theorie 4": "Theorie",
+  "Theorie 5": "Theorie",
+  "Theorie 6": "Theorie",
+  "Theorie 7": "Theorie",
+  "Business Ethiek 1": "Business Ethiek",
+  "Business Ethiek 2": "Business Ethiek",
+  "Business Ethiek 3": "Business Ethiek",
+  "Business Ethiek 4": "Business Ethiek",
+  "Business Ethiek 5": "Business Ethiek",
+  "Business Ethiek 6": "Business Ethiek",
+  "Vaardigheden AI": "Vaardigheden AI/JIT",
+  "Vaardigheden JIT": "Vaardigheden AI/JIT",
+  "AI Playground": "AI Playground",
+  "AI Challenge & Procescoaching": "AI Challenge & Procescoaching",
+  "AI Challenge": "AI Challenge & Procescoaching",
+  "Procescoaching": "AI Challenge & Procescoaching",
+  "Projectvaardigheden": "Projectvaardigheden",
+  "Intervisie": "Intervisie",
+  "Project - Professionele ontwikkeling": "Project - Professionele ontwikkeling",
+  "Project - Deliverables": "Project - Deliverables & Lowstake",
+  "Project - Lowstake": "Project - Deliverables & Lowstake",
+  "Stand-up": "Stand-up",
+};
+
+interface SeriesAcc {
+  dates: string[];
+  people: Set<string>;
+  firstWeek: number;
+  lastWeek: number;
+}
+
+const seriesAcc = new Map<string, SeriesAcc>();
+for (const b of rawSchedule) {
+  const key = seriesKeyByTitle[b.title];
+  if (!key) continue;
+  const acc = seriesAcc.get(key) ?? { dates: [], people: new Set<string>(), firstWeek: b.week, lastWeek: b.week };
+  acc.dates.push(b.date);
+  if (b.people) acc.people.add(b.people);
+  acc.firstWeek = Math.min(acc.firstWeek, b.week);
+  acc.lastWeek = Math.max(acc.lastWeek, b.week);
+  seriesAcc.set(key, acc);
+}
+
+const today = new Date();
+
+export const officialLearningModules: ELearningModule[] = Array.from(seriesAcc.entries())
+  .sort((a, b) => a[1].firstWeek - b[1].firstWeek)
+  .map(([title, acc]) => {
+    const total = acc.dates.length;
+    const done = acc.dates.filter((d) => parseISODate(d) < today).length;
+    const progressPercent = Math.round((done / total) * 100);
+    const status: Status = done === 0 ? "niet_gestart" : done === total ? "afgerond" : "bezig";
+    return {
+      id: `elm-${title.toLowerCase().replace(/[^a-z0-9]+/g, "-")}`,
+      title,
+      description: `${total} sessie${total === 1 ? "" : "s"}, week ${acc.firstWeek} t/m ${acc.lastWeek}`,
+      materials: Array.from(acc.people),
+      progressPercent,
+      status,
+      origin: "OFFICIAL_CONTENT",
+      source: {
+        sourceDocument: `${BASE_URL}planning.html`,
+        sourceSection: "Planning",
+        sourceLabel: `Terugkerende sessie "${title}" (week ${acc.firstWeek}-${acc.lastWeek})`,
+      },
+    };
+  });

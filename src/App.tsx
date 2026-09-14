@@ -1,5 +1,5 @@
 import { Routes, Route } from "react-router-dom";
-import { Target, BarChart3, FileText, PenLine, Folder, BookOpen, GraduationCap, Users, Settings } from "lucide-react";
+import { Target, BarChart3, FileText, PenLine, Folder, GraduationCap, Users, Settings } from "lucide-react";
 import AppShell from "./layout/AppShell";
 import Dashboard from "./pages/Dashboard";
 import Planning from "./pages/Planning/Planning";
@@ -7,11 +7,10 @@ import Deadlines from "./pages/Deadlines/Deadlines";
 import StakesOverview from "./pages/Stakes/StakesOverview";
 import StakeDetail from "./pages/Stakes/StakeDetail";
 import Materials from "./pages/Materials/Materials";
+import ELearning from "./pages/ELearning/ELearning";
 import Outlook from "./pages/Outlook/Outlook";
 import PlaceholderPage from "./pages/PlaceholderPage";
 
-const NO_ELEARNING_NOTE =
-  "Deze minor werkt niet met klassieke E-learningmodules (video/quiz), maar met 18 downloadbare hulpmiddelen per Double Diamond-fase. Zie de pagina Materialen voor het officiele overzicht.";
 const BACKEND_BLOCKER =
   "Wacht op configuratie van Supabase (database/storage) om deze module met echte data te vullen.";
 
@@ -29,7 +28,7 @@ export default function App() {
         <Route path="/documenten" element={<PlaceholderPage title="Documenten" blocker={BACKEND_BLOCKER} icon={<FileText size={22} />} />} />
         <Route path="/reflectie" element={<PlaceholderPage title="Reflectie" blocker={BACKEND_BLOCKER} icon={<PenLine size={22} />} />} />
         <Route path="/portfolio" element={<PlaceholderPage title="Portfolio" blocker={BACKEND_BLOCKER} icon={<Folder size={22} />} />} />
-        <Route path="/e-learning" element={<PlaceholderPage title="E-learning" blocker={NO_ELEARNING_NOTE} icon={<BookOpen size={22} />} />} />
+        <Route path="/e-learning" element={<ELearning />} />
         <Route path="/toetsmateriaal" element={<Materials />} />
         <Route path="/samenvattingen" element={<PlaceholderPage title="Samenvattingen" blocker={BACKEND_BLOCKER} icon={<GraduationCap size={22} />} />} />
         <Route path="/samenwerken" element={<PlaceholderPage title="Samenwerken" blocker={BACKEND_BLOCKER} icon={<Users size={22} />} />} />

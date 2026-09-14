@@ -1,0 +1,94 @@
+.elearning {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.elearning-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.elearning-header h1 {
+  margin: 0 0 4px;
+  font-size: 22px;
+}
+
+.elearning-header p {
+  margin: 0;
+  color: var(--text-muted);
+  font-size: 13px;
+  max-width: 680px;
+  line-height: 1.5;
+}
+
+.elearning-header a {
+  color: var(--accent-strong);
+}
+
+.elearning-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 12px;
+}
+
+.elm-card {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.elm-top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.elm-title {
+  font-size: 14.5px;
+  font-weight: 600;
+}
+
+.elm-desc {
+  margin: 0;
+  font-size: 12.5px;
+  color: var(--text-muted);
+}
+
+.elm-people {
+  margin: 0;
+  font-size: 11.5px;
+  color: var(--text-faint);
+}
+
+.elm-progress {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 4px;
+}
+
+.elm-progress-bar {
+  flex: 1;
+  height: 6px;
+  background: var(--bg-elevated);
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+.elm-progress-fill {
+  height: 100%;
+  background: var(--accent);
+  border-radius: 999px;
+}
+
+.elm-progress span {
+  font-size: 11.5px;
+  color: var(--text-muted);
+  width: 32px;
+  text-align: right;
+}
