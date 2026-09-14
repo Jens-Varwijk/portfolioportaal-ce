@@ -1,7 +1,7 @@
 import { NavLink } from "react-router-dom";
 import {
   Home, Calendar, Clock, Target, BarChart3, FileText, PenLine, Folder,
-  BookOpen, FileCheck2, GraduationCap, Users, Mail, Settings, Leaf,
+  BookOpen, FileCheck2, GraduationCap, Users, Mail, Settings, Leaf, ListChecks,
 } from "lucide-react";
 import { primaryNav, secondaryNav, type NavItem } from "../config/navigation";
 import "./Sidebar.css";
@@ -20,6 +20,7 @@ const icons: Record<string, React.ComponentType<{ size?: number }>> = {
   cap: GraduationCap,
   users: Users,
   mail: Mail,
+  check: ListChecks,
 };
 
 function NavList({ items }: { items: NavItem[] }) {

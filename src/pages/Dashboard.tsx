@@ -4,7 +4,7 @@ import ContentOriginBadge from "../components/ContentOriginBadge";
 import {
   mockProgress,
   mockTasks,
-  mockRecentDocuments,
+  mockDocuments,
   mockELearning,
   mockLearningGoals,
 } from "../data/mockData";
@@ -91,7 +91,7 @@ export default function Dashboard() {
       <div className="dashboard-grid">
         <Card title="Recente documenten">
           <ul className="doc-list">
-            {mockRecentDocuments.map((d) => (
+            {mockDocuments.map((d) => (
               <li key={d.id} className="doc-row">
                 <div className="doc-title">{d.fileName}</div>
                 <span className="doc-tag">{d.category}</span>

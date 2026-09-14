@@ -1,0 +1,180 @@
+.stakes,
+.stake-detail {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.stakes-header,
+.stake-detail-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.stakes-header h1,
+.stake-detail-header h1 {
+  margin: 6px 0 0;
+  font-size: 22px;
+}
+
+.stakes-header p {
+  margin: 0;
+  color: var(--text-muted);
+  font-size: 13px;
+}
+
+.filter-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.filter-row button {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  color: var(--text-muted);
+  border-radius: 999px;
+  padding: 6px 13px;
+  font-size: 12.5px;
+  cursor: pointer;
+}
+
+.filter-row button.active {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: white;
+}
+
+.stakes-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.stake-link {
+  text-decoration: none;
+  color: inherit;
+}
+
+.stake-card-top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.kind-tag {
+  display: inline-block;
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  padding: 2px 8px;
+  border-radius: 999px;
+  margin-bottom: 6px;
+}
+
+.kind-lowstake {
+  background: rgba(52, 211, 153, 0.16);
+  color: var(--user);
+}
+
+.kind-midstake {
+  background: rgba(124, 92, 255, 0.16);
+  color: var(--official);
+}
+
+.stake-title {
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.stake-goal {
+  font-size: 13px;
+  color: var(--text-muted);
+  margin: 8px 0 0;
+}
+
+.stake-deadline {
+  margin-top: 10px;
+  padding-top: 10px;
+  border-top: 1px solid var(--border);
+  font-size: 12.5px;
+  color: var(--accent-strong);
+}
+
+.back-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--text-muted);
+  text-decoration: none;
+  font-size: 12.5px;
+  width: fit-content;
+}
+
+.back-link:hover {
+  color: var(--text);
+}
+
+.stake-detail-badges {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.stake-detail-grid {
+  display: grid;
+  grid-template-columns: 1.4fr 1fr;
+  gap: 14px;
+}
+
+.stake-detail-side {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.sub-heading {
+  font-size: 12.5px;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  color: var(--text-muted);
+  margin: 14px 0 4px;
+}
+
+.plain-list {
+  margin: 0;
+  padding-left: 18px;
+  font-size: 13px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.meta-list {
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.meta-list dt {
+  font-size: 11.5px;
+  color: var(--text-muted);
+  text-transform: uppercase;
+}
+
+.meta-list dd {
+  margin: 2px 0 0;
+  font-size: 13.5px;
+}
+
+@media (max-width: 900px) {
+  .stake-detail-grid {
+    grid-template-columns: 1fr;
+  }
+}

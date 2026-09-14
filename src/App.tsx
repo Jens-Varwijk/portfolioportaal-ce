@@ -4,6 +4,8 @@ import AppShell from "./layout/AppShell";
 import Dashboard from "./pages/Dashboard";
 import Planning from "./pages/Planning/Planning";
 import Deadlines from "./pages/Deadlines/Deadlines";
+import StakesOverview from "./pages/Stakes/StakesOverview";
+import StakeDetail from "./pages/Stakes/StakeDetail";
 import PlaceholderPage from "./pages/PlaceholderPage";
 
 const STUDIEGIDS_BLOCKER =
@@ -20,6 +22,8 @@ export default function App() {
         <Route path="/" element={<Dashboard />} />
         <Route path="/planning" element={<Planning />} />
         <Route path="/deadlines" element={<Deadlines />} />
+        <Route path="/opdrachten" element={<StakesOverview />} />
+        <Route path="/opdrachten/:id" element={<StakeDetail />} />
         <Route path="/leerdoelen" element={<PlaceholderPage title="Leerdoelen" blocker={BACKEND_BLOCKER} icon={<Target size={22} />} />} />
         <Route path="/vaardigheden" element={<PlaceholderPage title="Vaardigheden" blocker={BACKEND_BLOCKER} icon={<BarChart3 size={22} />} />} />
         <Route path="/documenten" element={<PlaceholderPage title="Documenten" blocker={BACKEND_BLOCKER} icon={<FileText size={22} />} />} />
