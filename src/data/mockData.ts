@@ -31,16 +31,30 @@ export const mockTasks: Task[] = [
   { id: "t5", title: "Eindverslag definitief maken", week: "Week 8", dueDate: "2026-10-15", done: false, category: "deadline" },
 ];
 
-export const mockDeadlines: Deadline[] = mockTasks
-  .filter((t) => t.category === "deadline")
-  .map((t) => ({
-    id: `d-${t.id}`,
-    title: t.title,
-    date: t.dueDate!,
-    status: "bezig" as const,
-    week: undefined,
-    origin: "MOCKDATA" as const,
-  }));
+const kindByCategory: Record<string, string> = {
+  deadline: "Project",
+  lowstake: "Lowstake",
+  milestone: "Midstake",
+};
+
+const statusByTask: Record<string, Deadline["status"]> = {
+  t1: "bezig",
+  t2: "niet_gestart",
+  t3: "bijna_klaar",
+  t4: "niet_gestart",
+  t5: "niet_gestart",
+};
+
+export const mockDeadlines: Deadline[] = mockTasks.map((t) => ({
+  id: `d-${t.id}`,
+  title: t.title,
+  date: t.dueDate!,
+  description: t.week,
+  projectType: kindByCategory[t.category ?? "deadline"],
+  status: statusByTask[t.id] ?? "niet_gestart",
+  remainingWork: statusByTask[t.id] === "bijna_klaar" ? "Laatste check door coach" : "Uitwerken en inleveren",
+  origin: "MOCKDATA" as const,
+}));
 
 export const mockRecentDocuments: Document[] = [
   { id: "doc1", fileName: "Onderzoeksplan_CE.docx", fileType: "word", uploadDate: "2026-09-12", category: "Opdracht" },

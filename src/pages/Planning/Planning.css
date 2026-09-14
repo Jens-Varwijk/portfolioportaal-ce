@@ -1,0 +1,284 @@
+.planning {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.planning-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.planning-header h1 {
+  margin: 0 0 4px;
+  font-size: 22px;
+}
+
+.planning-header p {
+  margin: 0;
+  color: var(--text-muted);
+  font-size: 13px;
+}
+
+.planning-legend {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 14px;
+  font-size: 12.5px;
+  color: var(--text-muted);
+}
+
+.legend-chip {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.legend-note {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.planning-item-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 999px;
+  background: var(--accent);
+  flex-shrink: 0;
+}
+
+.source-opleiding .planning-item-dot,
+.planning-item-dot.source-opleiding {
+  background: var(--official);
+}
+
+.source-persoonlijk .planning-item-dot,
+.planning-item-dot.source-persoonlijk {
+  background: var(--user);
+}
+
+.source-outlook .planning-item-dot,
+.planning-item-dot.source-outlook {
+  background: var(--info);
+}
+
+.planning-form-card {
+  max-width: 640px;
+}
+
+.planning-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.view-switch {
+  display: flex;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 3px;
+  gap: 2px;
+}
+
+.view-switch button {
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  font-size: 12.5px;
+  padding: 6px 12px;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+}
+
+.view-switch button.active {
+  background: var(--accent);
+  color: white;
+}
+
+.range-nav {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 13px;
+  color: var(--text-muted);
+}
+
+.range-nav button {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  color: var(--text);
+  border-radius: var(--radius-sm);
+  width: 28px;
+  height: 28px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.planning-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  padding: 7px 8px;
+  border-radius: var(--radius-sm);
+  background: var(--bg-elevated);
+  margin-bottom: 6px;
+}
+
+.planning-item-dot {
+  margin-top: 5px;
+}
+
+.planning-item-body {
+  flex: 1;
+  min-width: 0;
+}
+
+.planning-item-title {
+  font-size: 12.5px;
+  font-weight: 500;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.planning-item-time {
+  font-size: 11px;
+  color: var(--text-muted);
+}
+
+.planning-item-delete {
+  background: none;
+  border: none;
+  color: var(--text-faint);
+  cursor: pointer;
+  padding: 2px;
+  flex-shrink: 0;
+}
+
+.planning-item-delete:hover {
+  color: var(--danger);
+}
+
+.day-view-title {
+  margin: 0 0 12px;
+  font-size: 15px;
+}
+
+.muted {
+  color: var(--text-muted);
+  font-size: 13px;
+}
+
+.week-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 10px;
+}
+
+.week-day {
+  padding: 12px;
+  min-height: 160px;
+}
+
+.week-day-header {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 8px;
+  color: var(--text-muted);
+  font-size: 11px;
+}
+
+.week-day-num {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.month-grid-header {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  text-align: center;
+  font-size: 11px;
+  color: var(--text-muted);
+  margin-bottom: 6px;
+}
+
+.month-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 4px;
+}
+
+.month-cell {
+  min-height: 62px;
+  border-radius: var(--radius-sm);
+  background: var(--bg-elevated);
+  padding: 6px;
+}
+
+.month-cell.empty {
+  background: transparent;
+}
+
+.month-cell-num {
+  font-size: 12px;
+  color: var(--text-muted);
+}
+
+.month-cell-dots {
+  display: flex;
+  gap: 3px;
+  margin-top: 6px;
+  flex-wrap: wrap;
+}
+
+.planning-item-date {
+  font-size: 11px;
+  color: var(--text-faint);
+  margin: 10px 0 2px;
+}
+
+.timeline {
+  position: relative;
+  padding-left: 8px;
+}
+
+.timeline-row {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+}
+
+.timeline-dot {
+  margin-top: 26px;
+  width: 8px;
+  height: 8px;
+  border-radius: 999px;
+  background: var(--accent);
+  flex-shrink: 0;
+}
+
+@media (max-width: 900px) {
+  .week-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 560px) {
+  .week-grid {
+    grid-template-columns: 1fr;
+  }
+  .month-cell {
+    min-height: 44px;
+  }
+}

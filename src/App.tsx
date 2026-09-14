@@ -1,7 +1,9 @@
 import { Routes, Route } from "react-router-dom";
-import { Calendar, Clock, Target, BarChart3, FileText, PenLine, Folder, BookOpen, FileCheck2, GraduationCap, Users, Mail, Settings } from "lucide-react";
+import { Target, BarChart3, FileText, PenLine, Folder, BookOpen, FileCheck2, GraduationCap, Users, Mail, Settings } from "lucide-react";
 import AppShell from "./layout/AppShell";
 import Dashboard from "./pages/Dashboard";
+import Planning from "./pages/Planning/Planning";
+import Deadlines from "./pages/Deadlines/Deadlines";
 import PlaceholderPage from "./pages/PlaceholderPage";
 
 const STUDIEGIDS_BLOCKER =
@@ -16,8 +18,8 @@ export default function App() {
     <Routes>
       <Route element={<AppShell />}>
         <Route path="/" element={<Dashboard />} />
-        <Route path="/planning" element={<PlaceholderPage title="Planning" blocker={STUDIEGIDS_BLOCKER} icon={<Calendar size={22} />} />} />
-        <Route path="/deadlines" element={<PlaceholderPage title="Deadlines" blocker={STUDIEGIDS_BLOCKER} icon={<Clock size={22} />} />} />
+        <Route path="/planning" element={<Planning />} />
+        <Route path="/deadlines" element={<Deadlines />} />
         <Route path="/leerdoelen" element={<PlaceholderPage title="Leerdoelen" blocker={BACKEND_BLOCKER} icon={<Target size={22} />} />} />
         <Route path="/vaardigheden" element={<PlaceholderPage title="Vaardigheden" blocker={BACKEND_BLOCKER} icon={<BarChart3 size={22} />} />} />
         <Route path="/documenten" element={<PlaceholderPage title="Documenten" blocker={BACKEND_BLOCKER} icon={<FileText size={22} />} />} />
